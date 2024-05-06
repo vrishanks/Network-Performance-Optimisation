@@ -5,12 +5,18 @@ Project Overview:
 The goal of this project is to improve network performance by monitoring traffic flows, identifying high utilization links, and automatically adjusting quality of service (QoS) settings or other parameters to optimize traffic handling. 
 
 This project can be divided into several phases:
+`Network Monitoring`
+`Data Analysis and Bottleneck Identification`
+`Automated Configuration Changes`
+`Testing and Validation`
 
-Network Monitoring
-Data Analysis and Bottleneck Identification
-Automated Configuration Changes
-Testing and Validation
+## Setup Instructions
+1. Install Python dependencies: `pip install -r requirements.txt`.
+2. Set up SNMP and NetFlow on your network devices.
+3. Adjust Ansible playbooks according to your network configuration.
 
+## Usage
+Run Python scripts in the `monitoring/` directory to collect network data. Use Ansible playbooks in the `ansible/` directory to apply configuration changes.
 Tools and Technologies:
 
 Python: For scripting and automation.
