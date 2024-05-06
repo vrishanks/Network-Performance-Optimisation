@@ -1,0 +1,14 @@
+- name: Configure QoS on network devices
+  hosts: all
+  become: yes
+  tasks:
+    - name: Apply QoS policy
+      ios_config:
+        lines:
+          - 'class-map match-any high-traffic'
+          - 'match access-group name high-traffic'
+          - 'policy-map optimize-traffic'
+          - 'class high-traffic'
+          - 'bandwidth percent 50'
+        parents: ['policy-map optimize-traffic']
+        before: ['no policy-map optimize-traffic']
