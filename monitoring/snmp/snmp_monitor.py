@@ -12,19 +12,28 @@ def get_snmp_data(oid, host="localhost", community="public", port=161):
     errorIndication, errorStatus, errorIndex, varBinds = next(iterator)
 
     if errorIndication:
-        print(errorIndication)
-        return None
+        return {'error': errorIndication}
     elif errorStatus:
-        print('%s at %s' % (errorStatus.prettyPrint(),
-                            errorIndex and varBinds[int(errorIndex) - 1][0] or '?'))
-        return None
+        return {'error': '%s at %s' % (errorStatus.prettyPrint(), errorIndex and varBinds[int(errorIndex) - 1][0] or '?')}
     else:
-        results = []
+        results = {}
         for varBind in varBinds:
-            result = f'{varBind[0].prettyPrint()} = {varBind[1].prettyPrint()}'
-            print(result)
-            results.append(result)
+            oid_str = varBind[0].prettyPrint()
+            value_str = varBind[1].prettyPrint()
+            results[oid_str] = value_str
         return results
 
 if __name__ == "__main__":
-    get_snmp_data('1.3.6.1.2.1.1.3.0')
+    oid = '1.3.6.1.2.1.1.3.0'
+    host = '172.20.10.2'
+    community = 'public'
+    port = 161
+
+    result = get_snmp_data(oid, host, community, port)
+
+    if 'error' in result:
+        print("Error:", result['error'])
+    else:
+        print("SNMP Data:")
+        for oid, value in result.items():
+            print(f"{oid} = {value}")
